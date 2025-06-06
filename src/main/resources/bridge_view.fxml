@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="bridge.BridgeController"
+            prefHeight="800.0" prefWidth="1200.0">
+
+    <top>
+        <VBox spacing="10">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10"/>
+            </padding>
+
+            <Label text="Problem Synchronizacji Mostu - PW-23" style="-fx-font-size: 24; -fx-font-weight: bold;"/>
+
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <VBox spacing="5">
+                    <Label text="Konfiguracja symulacji" style="-fx-font-weight: bold;"/>
+
+                    <GridPane hgap="10" vgap="5">
+                        <Label text="Pojemność mostu:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <Spinner fx:id="bridgeCapacitySpinner" prefWidth="80" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                        <Label text="Samochody ze wschodu:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <Spinner fx:id="carsEastSpinner" prefWidth="80" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                        <Label text="Samochody z zachodu:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                        <Spinner fx:id="carsWestSpinner" prefWidth="80" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                        <Label text="Typ synchronizacji:" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                        <ComboBox fx:id="synchronizationComboBox" prefWidth="250" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+
+                        <Label text="Czas przybycia (min/max ms):" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                        <HBox spacing="5" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                            <Spinner fx:id="minArrivalSpinner" prefWidth="80"/>
+                            <Label text="-"/>
+                            <Spinner fx:id="maxArrivalSpinner" prefWidth="80"/>
+                        </HBox>
+
+                        <Label text="Czas przejazdu (min/max ms):" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                        <HBox spacing="5" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                            <Spinner fx:id="minCrossingSpinner" prefWidth="80"/>
+                            <Label text="-"/>
+                            <Spinner fx:id="maxCrossingSpinner" prefWidth="80"/>
+                        </HBox>
+                    </GridPane>
+                </VBox>
+
+                <Separator orientation="VERTICAL"/>
+
+                <VBox spacing="5" alignment="CENTER">
+                    <Button fx:id="startButton" text="Start symulacji" prefWidth="120" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+                    <Button fx:id="stopButton" text="Stop symulacji" prefWidth="120" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+                    <Button fx:id="resetButton" text="Reset" prefWidth="120"/>
+                    <Button fx:id="saveConfigButton" text="Zapisz konfigurację" prefWidth="120"/>
+                </VBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10"/>
+            </padding>
+
+            <Canvas fx:id="canvas" width="1180" height="400"/>
+
+            <HBox spacing="20">
+                <VBox spacing="5" prefWidth="300">
+                    <Label text="Stan mostu" style="-fx-font-weight: bold;"/>
+                    <GridPane hgap="10" vgap="5">
+                        <Label text="Samochody na moście:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <Label fx:id="carsOnBridgeLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="0" style="-fx-font-weight: bold;"/>
+
+                        <Label text="Oczekujące ze wschodu:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <Label fx:id="waitingEastLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" style="-fx-text-fill: red;"/>
+
+                        <Label text="Oczekujące z zachodu:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                        <Label fx:id="waitingWestLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2" style="-fx-text-fill: blue;"/>
+
+                        <Label text="Aktualny kierunek:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                        <Label fx:id="currentDirectionLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                    </GridPane>
+                </VBox>
+
+                <VBox spacing="5" prefWidth="300">
+                    <Label text="Statystyki" style="-fx-font-weight: bold;"/>
+                    <GridPane hgap="10" vgap="5">
+                        <Label text="Całkowita liczba przejazdów:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <Label fx:id="totalCarsLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                        <Label text="Średni czas oczekiwania:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <Label fx:id="avgWaitingTimeLabel" text="0.00 ms" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                        <Label text="Maksymalny czas oczekiwania:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                        <Label fx:id="maxWaitingTimeLabel" text="0 ms" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                        <Label text="Przejazdy wschód→zachód:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                        <Label fx:id="carsEastProcessedLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="3" style="-fx-text-fill: red;"/>
+
+                        <Label text="Przejazdy zachód→wschód:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                        <Label fx:id="carsWestProcessedLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="4" style="-fx-text-fill: blue;"/>
+                    </GridPane>
+                </VBox>
+
+                <VBox spacing="5" HBox.hgrow="ALWAYS">
+                    <Label text="Logi symulacji" style="-fx-font-weight: bold;"/>
+                    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+                        <TextArea fx:id="logTextArea" editable="false" wrapText="true" style="-fx-font-family: monospace; -fx-font-size: 10;"/>
+                    </ScrollPane>
+                </VBox>
+            </HBox>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox spacing="10" alignment="CENTER">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10"/>
+            </padding>
+            <Label text="© 2024 - Problem synchronizacji mostu - Implementacja w Kotlinie z JavaFX" style="-fx-font-style: italic;"/>
+        </HBox>
+    </bottom>
+</BorderPane>

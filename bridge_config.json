@@ -1,0 +1,10 @@
+{
+  "bridgeCapacity": 3,
+  "numberOfCarsEast": 5,
+  "numberOfCarsWest": 5,
+  "minArrivalTime": 1000,
+  "maxArrivalTime": 5000,
+  "minCrossingTime": 2000,
+  "maxCrossingTime": 4000,
+  "synchronizationType": "SEMAPHORE"
+}
