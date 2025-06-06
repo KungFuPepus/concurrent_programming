@@ -37,8 +37,10 @@ class BridgeApplication : Application() {
         controller.initialize(configuration)
 
         // Utwórz scenę
-        val scene = Scene(root, 1200, 800)
-        scene.stylesheets.add(javaClass.getResource("/styles.css").toExternalForm())
+        val scene = Scene(root, 1200.0, 800.0)
+        javaClass.getResource("/styles.css")?.toExternalForm()?.let {
+            scene.stylesheets.add(it)
+        }
 
         stage.title = "Problem Synchronizacji Mostu - PW-23"
         stage.scene = scene
@@ -74,7 +76,7 @@ class BridgeApplication : Application() {
         }
     }
 
-    fun saveConfiguration(config: BridgeConfiguration) {
+    private fun saveConfiguration(config: BridgeConfiguration) {
         try {
             val json = Json {
                 prettyPrint = true

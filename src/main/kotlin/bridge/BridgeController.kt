@@ -5,7 +5,6 @@ import javafx.application.Platform
 import javafx.fxml.FXML
 import javafx.scene.canvas.Canvas
 import javafx.scene.control.*
-import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import kotlinx.coroutines.*
@@ -105,7 +104,6 @@ class BridgeController {
     }
 
     private fun setupCanvas() {
-        val gc = canvas.graphicsContext2D
         drawBridge()
     }
 

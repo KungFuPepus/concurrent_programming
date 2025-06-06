@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.9.21"
     kotlin("plugin.serialization") version "1.9.21"
-    id("org.openjfx.javafxplugin") version "0.1.0"
+    id("org.openjfx.javafxplugin") version "0.0.14"
     application
 }
 
@@ -26,16 +26,28 @@ dependencies {
 }
 
 javafx {
-    version = "17"
+    version = "21"
     modules = listOf("javafx.controls", "javafx.fxml", "javafx.graphics")
 }
 
 application {
-    mainClass.set("bridge.BridgeApplicationKt")
+    mainClass.set("bridge.BridgeApplication")  // ZMIENIONO: usunięto "Kt"
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "17"
+    kotlinOptions.jvmTarget = "21"
+}
+
+tasks.named<JavaExec>("run") {
+    jvmArgs = listOf(
+        "--add-modules", "javafx.controls,javafx.fxml,javafx.graphics",
+        "--add-opens", "javafx.graphics/com.sun.javafx.application=ALL-UNNAMED"
+    )
 }
 
 tasks.test {
@@ -44,7 +56,7 @@ tasks.test {
 
 tasks.jar {
     manifest {
-        attributes["Main-Class"] = "bridge.BridgeApplicationKt"
+        attributes["Main-Class"] = "bridge.BridgeApplication"  // ZMIENIONO: usunięto "Kt"
     }
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
